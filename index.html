@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>For My Love ♡</title>
+
+  <!-- Elegant fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --background: #f5f1dc;
+      --cream: #f7f3df;
+      --yellow: #eee1a0;
+      --pink: #d9a3a5;
+      --brown: #936352;
+      --text: #25221d;
+      --border: #363329;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text);
+      font-family: "Cormorant Garamond", serif;
+      overflow-x: hidden;
+    }
+
+    /* ========================
+       NAVBAR
+    ======================== */
+
+    nav {
+      height: 105px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      position: relative;
+      background: var(--background);
+      z-index: 20;
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      flex: 1;
+    }
+
+    .nav-right {
+      justify-content: flex-end;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 25px;
+      transition: opacity 0.3s ease;
+    }
+
+    nav a:hover {
+      opacity: 0.5;
+    }
+
+    .active {
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      padding: 5px 15px;
+    }
+
+    .logo {
+      flex: 1;
+      text-align: center;
+      font-family: "DM Serif Display", serif;
+      font-style: italic;
+      font-weight: normal;
+      font-size: clamp(34px, 4vw, 55px);
+      white-space: nowrap;
+    }
+
+    /* ========================
+       MAIN PAGE
+    ======================== */
+
+    .page {
+      display: grid;
+      grid-template-columns: 41% 59%;
+      min-height: calc(100vh - 105px);
+    }
+
+    /* ========================
+       LEFT GALLERY
+    ======================== */
+
+    .gallery-side {
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+
+    .gallery-intro {
+      padding: 80px 65px 30px;
+      font-size: 23px;
+    }
+
+    .gallery-intro strong {
+      font-family: Georgia, serif;
+      font-size: 19px;
+    }
+
+    .gallery-item {
+      position: relative;
+      padding: 25px 55px 30px 35px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .photo-frame {
+      background: var(--yellow);
+      border: 1px solid var(--border);
+      padding: 18px;
+      width: 82%;
+      max-width: 430px;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--border);
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: saturate(0.8) sepia(0.07);
+    }
+
+    .vertical-word {
+      position: absolute;
+      right: 7%;
+      top: 50%;
+      transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 0.8;
+      opacity: 0.95;
+    }
+
+    .caption-box {
+      width: 74%;
+      margin: 20px 0 0 20px;
+      padding: 14px 18px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      font-family: Georgia, serif;
+      font-size: 12px;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .caption-box::after {
+      content: "×";
+      position: absolute;
+      right: 3px;
+      top: -3px;
+      border: 1px solid var(--border);
+      width: 13px;
+      height: 13px;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+    }
+
+    /* ========================
+       RIGHT HERO
+    ======================== */
+
+    .story-side {
+      position: relative;
+      padding: 55px 3.5% 100px 9%;
+      overflow: hidden;
+    }
+
+    .story-label {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    .title {
+      font-family: "DM Serif Display", serif;
+      font-weight: normal;
+      font-size: clamp(45px, 5vw, 76px);
+      line-height: 0.95;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 25px;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .main-photo {
+      width: 88%;
+      margin: auto;
+      background: var(--yellow);
+      padding: 27px;
+      border: 1px solid var(--border);
+      position: relative;
+      z-index: 2;
+    }
+
+    .main-photo img {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--border);
+      aspect-ratio: 0.82 / 1;
+      object-fit: cover;
+      filter: saturate(0.85) sepia(0.05);
+    }
+
+    /* ========================
+       LOVE LETTER
+    ======================== */
+
+    .love-letter {
+      width: 72%;
+      min-height: 310px;
+      background: var(--yellow);
+      border: 1px solid var(--border);
+      border-radius: 50% 50% 0 0 / 42% 42% 0 0;
+      margin: -40px auto 0;
+      position: relative;
+      z-index: 3;
+      padding: 48px 11% 55px;
+      text-align: center;
+    }
+
+    .love-letter h2 {
+      font-family: "DM Serif Display", serif;
+      font-weight: normal;
+      font-size: 33px;
+      margin-bottom: 5px;
+    }
+
+    .letter-line {
+      height: 1px;
+      background: var(--border);
+      max-width: 150px;
+      margin: 5px auto 18px;
+    }
+
+    .love-letter .star {
+      display: block;
+      font-size: 19px;
+      margin-bottom: 12px;
+    }
+
+    .love-letter p {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    /* ========================
+       DECORATIVE ELEMENTS
+    ======================== */
+
+    .sparkle {
+      position: absolute;
+      font-size: 48px;
+      font-family: serif;
+      z-index: 5;
+    }
+
+    .sparkle.one {
+      top: 20px;
+      right: 3%;
+    }
+
+    .sparkle.two {
+      top: 85px;
+      left: 11%;
+      color: #b09236;
+    }
+
+    .sparkle.three {
+      bottom: 40px;
+      left: 3%;
+      color: #b09236;
+    }
+
+    .sparkle.four {
+      bottom: 260px;
+      left: 7%;
+      font-size: 32px;
+    }
+
+    /* ========================
+       SIDE TEXT STRIP
+    ======================== */
+
+    .memory-strip {
+      position: absolute;
+      left: -1px;
+      top: 0;
+      height: 100%;
+      width: 38px;
+      border-right: 1px solid var(--border);
+      background: var(--background);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 4;
+    }
+
+    .memory-strip span {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      white-space: nowrap;
+      font-size: 17px;
+      word-spacing: 14px;
+    }
+
+    /* ========================
+       COLOR TAGS
+    ======================== */
+
+    .color-tags {
+      position: absolute;
+      left: 37px;
+      top: 245px;
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      z-index: 1;
+    }
+
+    .color-tag {
+      width: 66px;
+      height: 110px;
+      border: 1px solid var(--border);
+      border-radius: 50% 0 0 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 13px;
+    }
+
+    .color-tag:nth-child(1) {
+      background: #d8b4a8;
+    }
+
+    .color-tag:nth-child(2) {
+      background: #ce9d8f;
+    }
+
+    .color-tag:nth-child(3) {
+      background: #ad7667;
+    }
+
+    /* ========================
+       MOBILE
+    ======================== */
+
+    @media (max-width: 900px) {
+      nav {
+        height: auto;
+        padding: 18px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .nav-left,
+      .nav-right {
+        display: none;
+      }
+
+      .logo {
+        font-size: 38px;
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      .gallery-side {
+        border-right: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .gallery-intro {
+        padding: 50px 25px 20px;
+      }
+
+      .gallery-item {
+        padding: 25px 20px 35px;
+      }
+
+      .photo-frame {
+        width: 87%;
+      }
+
+      .vertical-word {
+        right: 3px;
+        font-size: 55px;
+      }
+
+      .story-side {
+        padding: 50px 18px 60px 50px;
+      }
+
+      .title {
+        font-size: 47px;
+      }
+
+      .story-label {
+        font-size: 18px;
+      }
+
+      .subtitle {
+        font-size: 20px;
+      }
+
+      .main-photo {
+        width: 100%;
+        padding: 14px;
+      }
+
+      .love-letter {
+        width: 100%;
+        min-height: 280px;
+        padding: 45px 30px;
+        margin-top: -10px;
+      }
+
+      .love-letter p {
+        font-size: 12px;
+      }
+
+      .color-tags {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========================
+       NAVIGATION
+  ======================== -->
+
+  <nav>
+
+    <div class="nav-left">
+      <a href="#home">Home</a>
+      <a href="#gallery" class="active">Gallery</a>
+      <a href="#music">Music</a>
+    </div>
+
+    <div class="logo">
+      With ♡ My Love
+    </div>
+
+    <div class="nav-right">
+      <a href="#poetry">Poetry</a>
+      <a href="#memories">Memories</a>
+      <a href="#more">More</a>
+    </div>
+
+  </nav>
+
+
+  <main class="page" id="home">
+
+    <!-- ========================
+         LEFT SIDE
+    ======================== -->
+
+    <section class="gallery-side" id="gallery">
+
+      <div class="sparkle two">✧</div>
+
+      <div class="gallery-intro">
+        New memories with <strong>@yourgirlfriend</strong>
+      </div>
+
+
+      <!-- PHOTO #1 -->
+
+      <article class="gallery-item">
+
+        <div class="photo-frame">
+          <img src="photo1.jpg" alt="Our memory">
+        </div>
+
+        <div class="vertical-word">
+          Friday
+        </div>
+
+        <div class="caption-box">
+          One of those simple moments that somehow became one
+          of my favorite memories with you. ♡
+        </div>
+
+      </article>
+
+
+      <!-- PHOTO #2 -->
+
+      <article class="gallery-item">
+
+        <div class="photo-frame">
+          <img src="photo2.jpg" alt="Our date">
+        </div>
+
+        <div class="vertical-word">
+          Sunday
+        </div>
+
+        <div class="caption-box">
+          Good food, beautiful places, and my favorite person
+          sitting beside me. I couldn't ask for anything more.
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- ========================
+         RIGHT SIDE
+    ======================== -->
+
+    <section class="story-side">
+
+      <div class="memory-strip">
+        <span>
+          I love you ♡ I love you ♡ I love you ♡ I love you ♡
+        </span>
+      </div>
+
+
+      <div class="color-tags">
+
+        <div class="color-tag">
+          Nude Lips
+        </div>
+
+        <div class="color-tag">
+          Ivory Baby
+        </div>
+
+        <div class="color-tag">
+          Terracotta
+        </div>
+
+      </div>
+
+
+      <div class="sparkle one">✧</div>
+      <div class="sparkle three">✧</div>
+      <div class="sparkle four">✦</div>
+
+
+      <div class="story-label">
+        New post &nbsp; &gt;
+      </div>
+
+
+      <h1 class="title">
+        ✦ Happy Birthday, baby ✦
+      </h1>
+
+
+      <div class="subtitle">
+        my favorite person...
+      </div>
+
+
+      <!-- MAIN PHOTO -->
+
+      <div class="main-photo">
+        <img src="photo3.jpg" alt="My girlfriend">
+      </div>
+
+
+      <!-- LOVE LETTER -->
+
+      <div class="love-letter">
+
+        <h2>
+          A Letter For You
+        </h2>
+
+        <div class="letter-line"></div>
+
+        <span class="star">
+          ✦
+        </span>
+
+        <p>
+          Happy birthday, my love.
+          I don't think words will ever be enough to explain
+          how much you mean to me.
+          <br><br>
+
+          You are not only the person I love, but also my best
+          friend, my comfort, my happiness, and the person I
+          want beside me through every part of life.
+          <br><br>
+
+          Thank you for every laugh, every memory, every late
+          conversation, and every small moment that somehow
+          became unforgettable because it was with you.
+          <br><br>
+
+          I hope this year gives you everything you deserve
+          and even more.
+          <br><br>
+
+          I love you. Always. ♡
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
