@@ -809,7 +809,7 @@
   </div>
 
   <!-- Put your song here: music.mp3 (mp3 / m4a both work) -->
-  <audio id="bgMusic" src="music.mp3" loop preload="auto" playsinline></audio>
+  <audio id="bgMusic" src="music.mp3" preload="auto" playsinline></audio>
 
   <button class="music-toggle" id="musicToggle" type="button" aria-label="Toggle music" title="Toggle music">♪</button>
 
@@ -938,27 +938,61 @@
       const site = document.getElementById("site");
       const audio = document.getElementById("bgMusic");
       const musicToggle = document.getElementById("musicToggle");
+      const MUSIC_START = 16; // start song at 0:16
 
       let opened = false;
-      let musicReady = false;
+
+      function seekToStart() {
+        try {
+          if (audio.readyState >= 1) {
+            audio.currentTime = MUSIC_START;
+          } else {
+            audio.addEventListener(
+              "loadedmetadata",
+              function () {
+                audio.currentTime = MUSIC_START;
+              },
+              { once: true }
+            );
+          }
+        } catch (_) {}
+      }
 
       function startMusic() {
         if (!audio) return;
         audio.volume = 0.7;
+        audio.loop = false; // custom loop from second 16
+        seekToStart();
+
         const play = audio.play();
         if (play && typeof play.then === "function") {
           play
             .then(function () {
-              musicReady = true;
+              // Some browsers reset currentTime on play — re-apply start
+              if (audio.currentTime < MUSIC_START - 0.25) {
+                audio.currentTime = MUSIC_START;
+              }
               musicToggle.classList.add("is-visible");
               musicToggle.classList.remove("is-muted");
             })
             .catch(function () {
-              // File missing or blocked — still show toggle so user can retry
               musicToggle.classList.add("is-visible", "is-muted");
             });
         }
       }
+
+      // When the track ends, restart from second 16
+      audio.addEventListener("ended", function () {
+        audio.currentTime = MUSIC_START;
+        audio.play().catch(function () {});
+      });
+
+      // If native loop slips before 16, snap forward
+      audio.addEventListener("timeupdate", function () {
+        if (!audio.paused && audio.currentTime > 0 && audio.currentTime < MUSIC_START - 0.5) {
+          audio.currentTime = MUSIC_START;
+        }
+      });
 
       function openLetter() {
         if (opened) return;
@@ -989,6 +1023,9 @@
 
       musicToggle.addEventListener("click", function () {
         if (audio.paused) {
+          if (audio.currentTime < MUSIC_START) {
+            audio.currentTime = MUSIC_START;
+          }
           audio.play().then(function () {
             musicToggle.classList.remove("is-muted");
           }).catch(function () {});
