@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f1dc">
+  <meta name="description" content="A birthday letter for my love">
   <title>For My Love ♡</title>
 
-  <!-- Elegant fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 
   <style>
@@ -21,6 +20,9 @@
       --brown: #936352;
       --text: #25221d;
       --border: #363329;
+      --envelope: #e8c9a8;
+      --envelope-dark: #d4a574;
+      --seal: #c45c5c;
     }
 
     * {
@@ -38,6 +40,241 @@
       color: var(--text);
       font-family: "Cormorant Garamond", serif;
       overflow-x: hidden;
+    }
+
+    body.is-locked {
+      overflow: hidden;
+      height: 100dvh;
+    }
+
+    /* ========================
+       LETTER OPENING GATE
+    ======================== */
+
+    .letter-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(ellipse at 50% 30%, #fff6e4 0%, transparent 55%),
+        linear-gradient(160deg, #f5f1dc 0%, #ead9b8 45%, #d9a3a5 140%);
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+      padding: 24px;
+    }
+
+    .letter-gate.is-open {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .letter-gate__hint {
+      position: absolute;
+      top: max(28px, env(safe-area-inset-top));
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: clamp(18px, 4vw, 24px);
+      letter-spacing: 0.04em;
+      animation: softPulse 2.4s ease-in-out infinite;
+    }
+
+    .envelope {
+      width: min(360px, 86vw);
+      aspect-ratio: 1.45 / 1;
+      position: relative;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      padding: 0;
+      filter: drop-shadow(0 18px 28px rgba(54, 51, 41, 0.22));
+      transition: transform 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .envelope:hover,
+    .envelope:focus-visible {
+      transform: translateY(-6px) scale(1.02);
+      outline: none;
+    }
+
+    .envelope__body {
+      position: absolute;
+      inset: 22% 0 0;
+      background: linear-gradient(180deg, var(--envelope) 0%, var(--envelope-dark) 100%);
+      border: 1.5px solid var(--border);
+      border-radius: 2px 2px 8px 8px;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .envelope__body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, transparent 48%, rgba(54, 51, 41, 0.08) 50%, transparent 52%),
+        linear-gradient(225deg, transparent 48%, rgba(54, 51, 41, 0.08) 50%, transparent 52%);
+    }
+
+    .envelope__flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 54%;
+      background: linear-gradient(180deg, #f0d2b2 0%, var(--envelope) 100%);
+      border: 1.5px solid var(--border);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform 0.85s cubic-bezier(0.65, 0, 0.35, 1);
+      z-index: 4;
+    }
+
+    .envelope.is-opening .envelope__flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope__letter {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 28%;
+      height: 62%;
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 2px;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      text-align: center;
+      transform: translateY(18%);
+      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+      box-shadow: 0 -4px 16px rgba(54, 51, 41, 0.08);
+    }
+
+    .envelope.is-opening .envelope__letter {
+      transform: translateY(-42%);
+    }
+
+    .envelope__letter h2 {
+      font-family: "DM Serif Display", serif;
+      font-weight: normal;
+      font-size: clamp(22px, 6vw, 28px);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .envelope__letter p {
+      font-size: 14px;
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    .envelope__seal {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #e07a7a, var(--seal) 60%, #8f3434);
+      border: 1.5px solid var(--border);
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      color: #fff6e8;
+      font-size: 22px;
+      transition: opacity 0.35s ease, transform 0.45s ease;
+      box-shadow: inset 0 0 0 3px rgba(255, 246, 232, 0.18);
+    }
+
+    .envelope.is-opening .envelope__seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+
+    .envelope__cta {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+
+    @keyframes softPulse {
+      0%, 100% { opacity: 0.55; }
+      50% { opacity: 1; }
+    }
+
+    /* ========================
+       SITE WRAPPER
+    ======================== */
+
+    .site {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
+    }
+
+    .site.is-revealed {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ========================
+       MUSIC TOGGLE
+    ======================== */
+
+    .music-toggle {
+      position: fixed;
+      right: max(16px, env(safe-area-inset-right));
+      bottom: max(18px, env(safe-area-inset-bottom));
+      z-index: 50;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--yellow);
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 20px rgba(54, 51, 41, 0.12);
+      transition: transform 0.25s ease, opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .music-toggle.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .music-toggle:hover {
+      transform: scale(1.06);
+    }
+
+    .music-toggle.is-muted {
+      opacity: 0.7;
+    }
+
+    .music-toggle.is-muted::after {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 28px;
+      background: var(--border);
+      transform: rotate(45deg);
+      border-radius: 2px;
     }
 
     /* ========================
@@ -91,7 +328,7 @@
       font-family: "DM Serif Display", serif;
       font-style: italic;
       font-weight: normal;
-      font-size: clamp(34px, 4vw, 55px);
+      font-size: clamp(28px, 4vw, 55px);
       white-space: nowrap;
     }
 
@@ -285,30 +522,13 @@
       font-size: 48px;
       font-family: serif;
       z-index: 5;
+      pointer-events: none;
     }
 
-    .sparkle.one {
-      top: 20px;
-      right: 3%;
-    }
-
-    .sparkle.two {
-      top: 85px;
-      left: 11%;
-      color: #b09236;
-    }
-
-    .sparkle.three {
-      bottom: 40px;
-      left: 3%;
-      color: #b09236;
-    }
-
-    .sparkle.four {
-      bottom: 260px;
-      left: 7%;
-      font-size: 32px;
-    }
+    .sparkle.one { top: 20px; right: 3%; }
+    .sparkle.two { top: 85px; left: 11%; color: #b09236; }
+    .sparkle.three { bottom: 40px; left: 3%; color: #b09236; }
+    .sparkle.four { bottom: 260px; left: 7%; font-size: 32px; }
 
     /* ========================
        SIDE TEXT STRIP
@@ -363,28 +583,51 @@
       font-size: 13px;
     }
 
-    .color-tag:nth-child(1) {
-      background: #d8b4a8;
-    }
+    .color-tag:nth-child(1) { background: #d8b4a8; }
+    .color-tag:nth-child(2) { background: #ce9d8f; }
+    .color-tag:nth-child(3) { background: #ad7667; }
 
-    .color-tag:nth-child(2) {
-      background: #ce9d8f;
-    }
+    /* ========================
+       TABLET
+    ======================== */
 
-    .color-tag:nth-child(3) {
-      background: #ad7667;
+    @media (max-width: 1100px) {
+      .nav-left,
+      .nav-right {
+        gap: 22px;
+      }
+
+      nav a {
+        font-size: 20px;
+      }
+
+      .gallery-intro {
+        padding: 50px 28px 20px;
+        font-size: 20px;
+      }
+
+      .gallery-item {
+        padding: 22px 40px 28px 22px;
+      }
+
+      .story-side {
+        padding: 40px 4% 80px 8%;
+      }
     }
 
     /* ========================
-       MOBILE
+       PHONE
     ======================== */
 
     @media (max-width: 900px) {
       nav {
         height: auto;
-        padding: 18px 20px;
+        min-height: 72px;
+        padding: 16px 16px calc(12px + env(safe-area-inset-top) * 0);
         flex-direction: column;
-        gap: 15px;
+        gap: 0;
+        border-left: none;
+        border-right: none;
       }
 
       .nav-left,
@@ -393,7 +636,9 @@
       }
 
       .logo {
-        font-size: 38px;
+        font-size: clamp(28px, 8vw, 36px);
+        white-space: normal;
+        line-height: 1.1;
       }
 
       .page {
@@ -407,244 +652,352 @@
       }
 
       .gallery-intro {
-        padding: 50px 25px 20px;
+        padding: 28px 18px 12px;
+        font-size: 18px;
+        line-height: 1.35;
+      }
+
+      .gallery-intro strong {
+        font-size: 16px;
       }
 
       .gallery-item {
-        padding: 25px 20px 35px;
+        padding: 22px 18px 28px;
       }
 
       .photo-frame {
-        width: 87%;
+        width: 100%;
+        max-width: none;
+        padding: 12px;
       }
 
       .vertical-word {
-        right: 3px;
-        font-size: 55px;
+        position: static;
+        writing-mode: horizontal-tb;
+        transform: none;
+        display: block;
+        margin: 14px 0 0;
+        font-size: clamp(34px, 12vw, 48px);
+        line-height: 1;
+        letter-spacing: 0.02em;
+      }
+
+      .caption-box {
+        width: 100%;
+        margin: 14px 0 0;
+        font-size: 13px;
+        line-height: 1.55;
+        padding: 14px 16px;
       }
 
       .story-side {
-        padding: 50px 18px 60px 50px;
+        padding: 28px 18px 48px;
+        overflow: visible;
       }
 
-      .title {
-        font-size: 47px;
+      .memory-strip,
+      .color-tags,
+      .sparkle.three,
+      .sparkle.four {
+        display: none;
+      }
+
+      .sparkle.one {
+        top: 10px;
+        right: 12px;
+        font-size: 28px;
+      }
+
+      .sparkle.two {
+        display: none;
       }
 
       .story-label {
-        font-size: 18px;
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+
+      .title {
+        font-size: clamp(34px, 10vw, 44px);
+        line-height: 1.05;
+        margin-bottom: 8px;
       }
 
       .subtitle {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 18px;
+        text-align: left;
       }
 
       .main-photo {
         width: 100%;
-        padding: 14px;
+        padding: 12px;
+      }
+
+      .main-photo img {
+        aspect-ratio: 4 / 5;
       }
 
       .love-letter {
         width: 100%;
-        min-height: 280px;
-        padding: 45px 30px;
-        margin-top: -10px;
+        min-height: 0;
+        margin-top: 0;
+        border-radius: 120px 120px 0 0 / 56px 56px 0 0;
+        padding: 36px 22px 40px;
+      }
+
+      .love-letter h2 {
+        font-size: 26px;
       }
 
       .love-letter p {
-        font-size: 12px;
+        font-size: 14px;
+        line-height: 1.7;
       }
 
-      .color-tags {
-        display: none;
+      .music-toggle {
+        width: 48px;
+        height: 48px;
+        right: 14px;
+        bottom: max(14px, env(safe-area-inset-bottom));
+      }
+
+      .envelope__cta {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .logo {
+        font-size: 26px;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+
+      .love-letter {
+        border-radius: 90px 90px 0 0 / 42px 42px 0 0;
+        padding: 30px 16px 34px;
       }
     }
   </style>
 </head>
 
-<body>
+<body class="is-locked">
 
   <!-- ========================
-       NAVIGATION
+       SEALED LETTER INTRO
   ======================== -->
+  <div class="letter-gate" id="letterGate" aria-hidden="false">
+    <p class="letter-gate__hint">A letter arrived for you…</p>
 
-  <nav>
-
-    <div class="nav-left">
-      <a href="#home">Home</a>
-      <a href="#gallery" class="active">Gallery</a>
-      <a href="#music">Music</a>
+    <div>
+      <button class="envelope" id="openLetter" type="button" aria-label="Open the letter">
+        <div class="envelope__flap"></div>
+        <div class="envelope__letter">
+          <div>
+            <h2>Happy Birthday,<br>my love</h2>
+            <p>tap to open ♡</p>
+          </div>
+        </div>
+        <div class="envelope__body"></div>
+        <div class="envelope__seal" aria-hidden="true">♡</div>
+      </button>
+      <p class="envelope__cta">Open me</p>
     </div>
+  </div>
 
-    <div class="logo">
-      With ♡ My Love
-    </div>
+  <!-- Put your song here: music.mp3 (mp3 / m4a both work) -->
+  <audio id="bgMusic" src="music.mp3" loop preload="auto" playsinline></audio>
 
-    <div class="nav-right">
-      <a href="#poetry">Poetry</a>
-      <a href="#memories">Memories</a>
-      <a href="#more">More</a>
-    </div>
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="Toggle music" title="Toggle music">♪</button>
 
-  </nav>
+  <div class="site" id="site">
 
-
-  <main class="page" id="home">
-
-    <!-- ========================
-         LEFT SIDE
-    ======================== -->
-
-    <section class="gallery-side" id="gallery">
-
-      <div class="sparkle two">✧</div>
-
-      <div class="gallery-intro">
-        New memories with <strong>@yourgirlfriend</strong>
+    <nav>
+      <div class="nav-left">
+        <a href="#home">Home</a>
+        <a href="#gallery" class="active">Gallery</a>
+        <a href="#music">Music</a>
       </div>
 
-
-      <!-- PHOTO #1 -->
-
-      <article class="gallery-item">
-
-        <div class="photo-frame">
-          <img src="photo1.jpg" alt="Our memory">
-        </div>
-
-        <div class="vertical-word">
-          Friday
-        </div>
-
-        <div class="caption-box">
-          One of those simple moments that somehow became one
-          of my favorite memories with you. ♡
-        </div>
-
-      </article>
-
-
-      <!-- PHOTO #2 -->
-
-      <article class="gallery-item">
-
-        <div class="photo-frame">
-          <img src="photo2.jpg" alt="Our date">
-        </div>
-
-        <div class="vertical-word">
-          Sunday
-        </div>
-
-        <div class="caption-box">
-          Good food, beautiful places, and my favorite person
-          sitting beside me. I couldn't ask for anything more.
-        </div>
-
-      </article>
-
-    </section>
-
-
-    <!-- ========================
-         RIGHT SIDE
-    ======================== -->
-
-    <section class="story-side">
-
-      <div class="memory-strip">
-        <span>
-          I love you ♡ I love you ♡ I love you ♡ I love you ♡
-        </span>
+      <div class="logo">
+        With ♡ My Love
       </div>
 
+      <div class="nav-right">
+        <a href="#poetry">Poetry</a>
+        <a href="#memories">Memories</a>
+        <a href="#more">More</a>
+      </div>
+    </nav>
 
-      <div class="color-tags">
+    <main class="page" id="home">
 
-        <div class="color-tag">
-          Nude Lips
+      <section class="gallery-side" id="gallery">
+        <div class="sparkle two">✧</div>
+
+        <div class="gallery-intro">
+          New memories with <strong>@yourgirlfriend</strong>
         </div>
 
-        <div class="color-tag">
-          Ivory Baby
+        <article class="gallery-item">
+          <div class="photo-frame">
+            <img src="photo1.jpg" alt="Our memory" loading="eager">
+          </div>
+          <div class="vertical-word">Friday</div>
+          <div class="caption-box">
+            One of those simple moments that somehow became one
+            of my favorite memories with you. ♡
+          </div>
+        </article>
+
+        <article class="gallery-item">
+          <div class="photo-frame">
+            <img src="photo2.jpg" alt="Our date" loading="lazy">
+          </div>
+          <div class="vertical-word">Sunday</div>
+          <div class="caption-box">
+            Good food, beautiful places, and my favorite person
+            sitting beside me. I couldn't ask for anything more.
+          </div>
+        </article>
+
+        <article class="gallery-item">
+          <div class="photo-frame">
+            <img src="photo4.jpg" alt="Another memory" loading="lazy">
+          </div>
+          <div class="vertical-word">Forever</div>
+          <div class="caption-box">
+            Every version of us feels like home. Here's to more
+            days, more laughs, and more of this love. ♡
+          </div>
+        </article>
+      </section>
+
+      <section class="story-side">
+        <div class="memory-strip">
+          <span>
+            I love you ♡ I love you ♡ I love you ♡ I love you ♡
+          </span>
         </div>
 
-        <div class="color-tag">
-          Terracotta
+        <div class="color-tags">
+          <div class="color-tag">Nude Lips</div>
+          <div class="color-tag">Ivory Baby</div>
+          <div class="color-tag">Terracotta</div>
         </div>
 
-      </div>
+        <div class="sparkle one">✧</div>
+        <div class="sparkle three">✧</div>
+        <div class="sparkle four">✦</div>
 
+        <div class="story-label">New post &nbsp; &gt;</div>
 
-      <div class="sparkle one">✧</div>
-      <div class="sparkle three">✧</div>
-      <div class="sparkle four">✦</div>
+        <h1 class="title">✦ Happy Birthday, baby ✦</h1>
 
+        <div class="subtitle">my favorite person...</div>
 
-      <div class="story-label">
-        New post &nbsp; &gt;
-      </div>
+        <div class="main-photo">
+          <img src="photo3.jpg" alt="My girlfriend" loading="eager">
+        </div>
 
+        <div class="love-letter" id="poetry">
+          <h2>A Letter For You</h2>
+          <div class="letter-line"></div>
+          <span class="star">✦</span>
+          <p>
+            Happy birthday, my love.
+            I don't think words will ever be enough to explain
+            how much you mean to me.
+            <br><br>
+            You are not only the person I love, but also my best
+            friend, my comfort, my happiness, and the person I
+            want beside me through every part of life.
+            <br><br>
+            Thank you for every laugh, every memory, every late
+            conversation, and every small moment that somehow
+            became unforgettable because it was with you.
+            <br><br>
+            I hope this year gives you everything you deserve
+            and even more.
+            <br><br>
+            I love you. Always. ♡
+          </p>
+        </div>
+      </section>
 
-      <h1 class="title">
-        ✦ Happy Birthday, baby ✦
-      </h1>
+    </main>
+  </div>
 
+  <script>
+    (function () {
+      const gate = document.getElementById("letterGate");
+      const envelope = document.getElementById("openLetter");
+      const site = document.getElementById("site");
+      const audio = document.getElementById("bgMusic");
+      const musicToggle = document.getElementById("musicToggle");
 
-      <div class="subtitle">
-        my favorite person...
-      </div>
+      let opened = false;
+      let musicReady = false;
 
+      function startMusic() {
+        if (!audio) return;
+        audio.volume = 0.7;
+        const play = audio.play();
+        if (play && typeof play.then === "function") {
+          play
+            .then(function () {
+              musicReady = true;
+              musicToggle.classList.add("is-visible");
+              musicToggle.classList.remove("is-muted");
+            })
+            .catch(function () {
+              // File missing or blocked — still show toggle so user can retry
+              musicToggle.classList.add("is-visible", "is-muted");
+            });
+        }
+      }
 
-      <!-- MAIN PHOTO -->
+      function openLetter() {
+        if (opened) return;
+        opened = true;
 
-      <div class="main-photo">
-        <img src="photo3.jpg" alt="My girlfriend">
-      </div>
+        envelope.classList.add("is-opening");
+        startMusic();
 
+        window.setTimeout(function () {
+          gate.classList.add("is-open");
+          gate.setAttribute("aria-hidden", "true");
+          site.classList.add("is-revealed");
+          document.body.classList.remove("is-locked");
+        }, 950);
 
-      <!-- LOVE LETTER -->
+        window.setTimeout(function () {
+          gate.style.display = "none";
+        }, 1700);
+      }
 
-      <div class="love-letter">
+      envelope.addEventListener("click", openLetter);
+      envelope.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openLetter();
+        }
+      });
 
-        <h2>
-          A Letter For You
-        </h2>
-
-        <div class="letter-line"></div>
-
-        <span class="star">
-          ✦
-        </span>
-
-        <p>
-          Happy birthday, my love.
-          I don't think words will ever be enough to explain
-          how much you mean to me.
-          <br><br>
-
-          You are not only the person I love, but also my best
-          friend, my comfort, my happiness, and the person I
-          want beside me through every part of life.
-          <br><br>
-
-          Thank you for every laugh, every memory, every late
-          conversation, and every small moment that somehow
-          became unforgettable because it was with you.
-          <br><br>
-
-          I hope this year gives you everything you deserve
-          and even more.
-          <br><br>
-
-          I love you. Always. ♡
-        </p>
-
-      </div>
-
-    </section>
-
-  </main>
-
+      musicToggle.addEventListener("click", function () {
+        if (audio.paused) {
+          audio.play().then(function () {
+            musicToggle.classList.remove("is-muted");
+          }).catch(function () {});
+        } else {
+          audio.pause();
+          musicToggle.classList.add("is-muted");
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
