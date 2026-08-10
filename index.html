@@ -347,54 +347,272 @@
     ======================== */
 
     nav {
-      height: 105px;
+      min-height: 105px;
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 5%;
+      padding: 18px 4%;
       position: relative;
       background: var(--background);
       z-index: 20;
+      gap: 12px;
     }
 
     .nav-left,
     .nav-right {
       display: flex;
-      gap: 48px;
+      gap: 18px;
       align-items: center;
       flex: 1;
+      flex-wrap: wrap;
     }
 
     .nav-right {
       justify-content: flex-end;
     }
 
-    nav a {
+    .nav-mobile {
+      display: none;
+    }
+
+    .nav-btn {
       color: var(--text);
-      text-decoration: none;
-      font-size: 25px;
-      transition: opacity 0.3s ease;
+      background: transparent;
+      border: none;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(16px, 1.7vw, 23px);
+      cursor: pointer;
+      padding: 6px 10px;
+      transition: opacity 0.3s ease, background 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
+      line-height: 1.2;
+      text-align: center;
     }
 
-    nav a:hover {
-      opacity: 0.5;
+    .nav-btn:hover,
+    .nav-btn:focus-visible {
+      opacity: 0.55;
+      outline: none;
     }
 
-    .active {
+    .nav-btn.is-active {
       border: 1px solid var(--border);
-      border-radius: 50%;
-      padding: 5px 15px;
+      border-radius: 999px;
+      padding: 6px 14px;
+      opacity: 1;
     }
 
     .logo {
-      flex: 1;
+      flex: 1.1;
       text-align: center;
       font-family: "DM Serif Display", serif;
       font-style: italic;
       font-weight: normal;
-      font-size: clamp(28px, 4vw, 55px);
+      font-size: clamp(24px, 3.4vw, 48px);
       white-space: nowrap;
+    }
+
+    /* ========================
+       LIST PANEL
+    ======================== */
+
+    .list-panel {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: end center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .list-panel.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .list-panel__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(37, 34, 29, 0.35);
+      border: none;
+      cursor: pointer;
+    }
+
+    .list-panel__sheet {
+      position: relative;
+      width: min(520px, 100%);
+      max-height: min(88dvh, 820px);
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-bottom: none;
+      border-radius: 28px 28px 0 0;
+      padding: 22px 22px calc(22px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transform: translateY(24px);
+      transition: transform 0.35s ease;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .list-panel.is-open .list-panel__sheet {
+      transform: translateY(0);
+    }
+
+    .list-panel__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .list-panel__header h2 {
+      font-family: "DM Serif Display", serif;
+      font-weight: normal;
+      font-size: clamp(28px, 5vw, 36px);
+      line-height: 1.1;
+    }
+
+    .list-panel__header p {
+      margin-top: 4px;
+      font-size: 14px;
+      font-style: italic;
+      opacity: 0.75;
+    }
+
+    .list-panel__close {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      background: var(--yellow);
+      color: var(--text);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .list-panel__items {
+      list-style: none;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: 4px;
+      min-height: 120px;
+      max-height: 38dvh;
+    }
+
+    .list-panel__empty {
+      border: 1px dashed var(--border);
+      padding: 22px 16px;
+      text-align: center;
+      font-style: italic;
+      opacity: 0.75;
+      font-size: 15px;
+    }
+
+    .list-item {
+      border: 1px solid var(--border);
+      background: var(--background);
+      padding: 14px 14px 14px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 12px;
+    }
+
+    .list-item__title {
+      font-family: "DM Serif Display", serif;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .list-item__date {
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      opacity: 0.65;
+      margin-top: 4px;
+    }
+
+    .list-item__note {
+      grid-column: 1 / -1;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      line-height: 1.55;
+      opacity: 0.9;
+    }
+
+    .list-item__delete {
+      border: 1px solid var(--border);
+      background: transparent;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .list-panel__form {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-panel__form h3 {
+      font-family: "DM Serif Display", serif;
+      font-weight: normal;
+      font-size: 20px;
+    }
+
+    .list-panel__form label {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .list-panel__form input,
+    .list-panel__form textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fffdf6;
+      color: var(--text);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 16px;
+      padding: 10px 12px;
+      resize: vertical;
+    }
+
+    .list-panel__form textarea {
+      min-height: 70px;
+    }
+
+    .list-panel__form-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 10px;
+    }
+
+    .list-panel__submit {
+      border: 1px solid var(--border);
+      background: var(--yellow);
+      color: var(--text);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 17px;
+      padding: 12px 16px;
+      cursor: pointer;
+      justify-self: start;
+    }
+
+    .list-panel__submit:hover {
+      opacity: 0.8;
     }
 
     /* ========================
@@ -628,11 +846,12 @@
     @media (max-width: 1100px) {
       .nav-left,
       .nav-right {
-        gap: 22px;
+        gap: 10px;
       }
 
-      nav a {
-        font-size: 20px;
+      .nav-btn {
+        font-size: 16px;
+        padding: 5px 8px;
       }
 
       .gallery-intro {
@@ -657,9 +876,9 @@
       nav {
         height: auto;
         min-height: 72px;
-        padding: 16px 16px calc(12px + env(safe-area-inset-top) * 0);
+        padding: 16px 16px 12px;
         flex-direction: column;
-        gap: 0;
+        gap: 14px;
         border-left: none;
         border-right: none;
       }
@@ -669,10 +888,40 @@
         display: none;
       }
 
+      .nav-mobile {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nav-mobile .nav-btn {
+        font-size: 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 7px 12px;
+        background: var(--yellow);
+      }
+
       .logo {
         font-size: clamp(28px, 8vw, 36px);
         white-space: normal;
         line-height: 1.1;
+      }
+
+      .list-panel__sheet {
+        width: 100%;
+        border-radius: 22px 22px 0 0;
+        padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+      }
+
+      .list-panel__form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .list-panel__items {
+        max-height: 34dvh;
       }
 
       .page {
@@ -863,9 +1112,8 @@
 
     <nav>
       <div class="nav-left">
-        <a href="#home">Home</a>
-        <a href="#gallery" class="active">Gallery</a>
-        <a href="#music">Music</a>
+        <button type="button" class="nav-btn" data-category="places">Places we love</button>
+        <button type="button" class="nav-btn" data-category="memories">Memories</button>
       </div>
 
       <div class="logo">
@@ -873,9 +1121,13 @@
       </div>
 
       <div class="nav-right">
-        <a href="#poetry">Poetry</a>
-        <a href="#memories">Memories</a>
-        <a href="#more">More</a>
+        <button type="button" class="nav-btn" data-category="music">Music we love</button>
+      </div>
+
+      <div class="nav-mobile" aria-label="Our lists">
+        <button type="button" class="nav-btn" data-category="places">Places we love</button>
+        <button type="button" class="nav-btn" data-category="memories">Memories</button>
+        <button type="button" class="nav-btn" data-category="music">Music we love</button>
       </div>
     </nav>
 
@@ -971,6 +1223,40 @@
       </section>
 
     </main>
+  </div>
+
+  <div class="list-panel" id="listPanel" aria-hidden="true">
+    <button type="button" class="list-panel__backdrop" id="listPanelBackdrop" aria-label="Close panel"></button>
+    <div class="list-panel__sheet" role="dialog" aria-modal="true" aria-labelledby="listPanelTitle">
+      <div class="list-panel__header">
+        <div>
+          <h2 id="listPanelTitle">Places we love</h2>
+          <p id="listPanelHint">Add the little corners of the world that feel like ours.</p>
+        </div>
+        <button type="button" class="list-panel__close" id="listPanelClose" aria-label="Close">×</button>
+      </div>
+
+      <ul class="list-panel__items" id="listPanelItems"></ul>
+
+      <form class="list-panel__form" id="listPanelForm">
+        <h3>Add one</h3>
+        <div class="list-panel__form-row">
+          <label>
+            Title
+            <input type="text" id="itemTitle" name="title" required maxlength="80" placeholder="Our favorite spot">
+          </label>
+          <label>
+            Date <span style="opacity:0.6">(optional)</span>
+            <input type="date" id="itemDate" name="date">
+          </label>
+        </div>
+        <label>
+          Note <span style="opacity:0.6">(optional)</span>
+          <textarea id="itemNote" name="note" maxlength="280" placeholder="Why we love it…"></textarea>
+        </label>
+        <button type="submit" class="list-panel__submit">Add to list ♡</button>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -1076,6 +1362,226 @@
           audio.pause();
           musicToggle.classList.add("is-muted");
         }
+      });
+
+      // ========================
+      // ADDABLE LISTS
+      // ========================
+
+      const STORAGE_KEY = "koki-yououuuu-lists";
+      const CATEGORIES = {
+        places: {
+          title: "Places we love",
+          hint: "Add the little corners of the world that feel like ours.",
+          empty: "No places yet — add the first one.",
+          singular: "place"
+        },
+        memories: {
+          title: "Memories",
+          hint: "Keep the moments you never want to forget.",
+          empty: "No memories yet — add the first one.",
+          singular: "memory"
+        },
+        music: {
+          title: "Music we love",
+          hint: "Songs that sound like us.",
+          empty: "No songs yet — add the first one.",
+          singular: "song"
+        }
+      };
+
+      const SEED = {
+        places: [
+          {
+            id: "seed-place-1",
+            title: "Wherever we are together",
+            note: "Home is a feeling more than a map.",
+            date: ""
+          }
+        ],
+        memories: [
+          {
+            id: "seed-memory-1",
+            title: "Your birthday page",
+            note: "The day Koki made this little world for Yououuuu.",
+            date: ""
+          }
+        ],
+        music: [
+          {
+            id: "seed-music-1",
+            title: "Our song on this page",
+            note: "The one that starts when the card opens.",
+            date: ""
+          }
+        ]
+      };
+
+      const panel = document.getElementById("listPanel");
+      const panelTitle = document.getElementById("listPanelTitle");
+      const panelHint = document.getElementById("listPanelHint");
+      const panelItems = document.getElementById("listPanelItems");
+      const panelForm = document.getElementById("listPanelForm");
+      const panelClose = document.getElementById("listPanelClose");
+      const panelBackdrop = document.getElementById("listPanelBackdrop");
+      const titleInput = document.getElementById("itemTitle");
+      const noteInput = document.getElementById("itemNote");
+      const dateInput = document.getElementById("itemDate");
+
+      let lists = loadLists();
+      let activeCategory = null;
+
+      function loadLists() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED));
+            return JSON.parse(JSON.stringify(SEED));
+          }
+          const parsed = JSON.parse(raw);
+          return {
+            places: Array.isArray(parsed.places) ? parsed.places : [],
+            memories: Array.isArray(parsed.memories) ? parsed.memories : [],
+            music: Array.isArray(parsed.music) ? parsed.music : []
+          };
+        } catch (_) {
+          return JSON.parse(JSON.stringify(SEED));
+        }
+      }
+
+      function saveLists() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lists));
+        } catch (_) {}
+      }
+
+      function formatDate(value) {
+        if (!value) return "";
+        const parts = String(value).split("-");
+        if (parts.length !== 3) return value;
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = months[Number(parts[1]) - 1] || parts[1];
+        return month + " " + Number(parts[2]) + ", " + parts[0];
+      }
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function renderList() {
+        if (!activeCategory) return;
+        const items = lists[activeCategory] || [];
+        const meta = CATEGORIES[activeCategory];
+
+        if (!items.length) {
+          panelItems.innerHTML = '<li class="list-panel__empty">' + escapeHtml(meta.empty) + "</li>";
+          return;
+        }
+
+        panelItems.innerHTML = items
+          .map(function (item) {
+            const dateHtml = item.date
+              ? '<div class="list-item__date">' + escapeHtml(formatDate(item.date)) + "</div>"
+              : "";
+            const noteHtml = item.note
+              ? '<div class="list-item__note">' + escapeHtml(item.note) + "</div>"
+              : "";
+            return (
+              '<li class="list-item" data-id="' +
+              escapeHtml(item.id) +
+              '">' +
+              '<div><div class="list-item__title">' +
+              escapeHtml(item.title) +
+              "</div>" +
+              dateHtml +
+              "</div>" +
+              '<button type="button" class="list-item__delete" data-delete="' +
+              escapeHtml(item.id) +
+              '" aria-label="Delete">×</button>' +
+              noteHtml +
+              "</li>"
+            );
+          })
+          .join("");
+      }
+
+      function setActiveNav(category) {
+        document.querySelectorAll(".nav-btn").forEach(function (btn) {
+          btn.classList.toggle("is-active", btn.getAttribute("data-category") === category);
+        });
+      }
+
+      function openPanel(category) {
+        if (!CATEGORIES[category]) return;
+        activeCategory = category;
+        const meta = CATEGORIES[category];
+        panelTitle.textContent = meta.title;
+        panelHint.textContent = meta.hint;
+        panel.classList.add("is-open");
+        panel.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        setActiveNav(category);
+        renderList();
+        titleInput.focus();
+      }
+
+      function closePanel() {
+        panel.classList.remove("is-open");
+        panel.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        activeCategory = null;
+        setActiveNav(null);
+        panelForm.reset();
+      }
+
+      document.querySelectorAll(".nav-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          openPanel(btn.getAttribute("data-category"));
+        });
+      });
+
+      panelClose.addEventListener("click", closePanel);
+      panelBackdrop.addEventListener("click", closePanel);
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && panel.classList.contains("is-open")) {
+          closePanel();
+        }
+      });
+
+      panelItems.addEventListener("click", function (event) {
+        const target = event.target.closest("[data-delete]");
+        if (!target || !activeCategory) return;
+        const id = target.getAttribute("data-delete");
+        lists[activeCategory] = (lists[activeCategory] || []).filter(function (item) {
+          return item.id !== id;
+        });
+        saveLists();
+        renderList();
+      });
+
+      panelForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!activeCategory) return;
+
+        const title = titleInput.value.trim();
+        if (!title) return;
+
+        lists[activeCategory] = lists[activeCategory] || [];
+        lists[activeCategory].unshift({
+          id: "item-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+          title: title,
+          note: noteInput.value.trim(),
+          date: dateInput.value || ""
+        });
+        saveLists();
+        panelForm.reset();
+        renderList();
+        titleInput.focus();
       });
     })();
   </script>
