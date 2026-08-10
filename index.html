@@ -748,25 +748,48 @@
       width: 100%;
       display: block;
       border: 1px solid var(--border);
-      aspect-ratio: 0.82 / 1;
+      aspect-ratio: 4 / 3;
       object-fit: cover;
+      object-position: center 20%;
       filter: saturate(0.85) sepia(0.05);
     }
 
+    .main-photo__label {
+      position: absolute;
+      left: 50%;
+      bottom: 42px;
+      transform: translateX(-50%);
+      z-index: 3;
+      background: rgba(245, 241, 220, 0.92);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(18px, 2.4vw, 26px);
+      font-style: italic;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
     /* ========================
-       LOVE LETTER
+       LOVE LETTER (below photos)
     ======================== */
 
+    .letter-section {
+      border-top: 1px solid var(--border);
+      padding: 70px 8% 90px;
+      background: var(--background);
+    }
+
     .love-letter {
-      width: 72%;
-      min-height: 310px;
+      width: min(720px, 100%);
+      min-height: 0;
       background: var(--yellow);
       border: 1px solid var(--border);
       border-radius: 50% 50% 0 0 / 42% 42% 0 0;
-      margin: -40px auto 0;
+      margin: 0 auto;
       position: relative;
       z-index: 3;
-      padding: 48px 11% 55px;
+      padding: 56px 10% 60px;
       text-align: center;
     }
 
@@ -792,8 +815,8 @@
 
     .love-letter p {
       font-family: Georgia, serif;
-      font-size: 13px;
-      line-height: 1.75;
+      font-size: 16px;
+      line-height: 1.85;
     }
 
     /* ========================
@@ -1017,7 +1040,17 @@
       }
 
       .main-photo img {
-        aspect-ratio: 4 / 5;
+        aspect-ratio: 4 / 3;
+      }
+
+      .main-photo__label {
+        bottom: 28px;
+        font-size: 18px;
+        padding: 7px 14px;
+      }
+
+      .letter-section {
+        padding: 42px 18px 70px;
       }
 
       .love-letter {
@@ -1033,8 +1066,8 @@
       }
 
       .love-letter p {
-        font-size: 14px;
-        line-height: 1.7;
+        font-size: 15px;
+        line-height: 1.75;
       }
 
       .music-toggle {
@@ -1142,35 +1175,23 @@
 
         <article class="gallery-item">
           <div class="photo-frame">
-            <img src="photo1.jpg" alt="Our memory" loading="eager">
+            <img src="photo1.jpg" alt="Happy laughter" loading="eager">
           </div>
-          <div class="vertical-word">Friday</div>
-          <div class="caption-box">
-            One of those simple moments that somehow became one
-            of my favorite memories with you. ♡
-          </div>
+          <div class="vertical-word">happy laughter</div>
         </article>
 
         <article class="gallery-item">
           <div class="photo-frame">
-            <img src="photo2.jpg" alt="Our date" loading="lazy">
+            <img src="photo2.jpg" alt="Happy moments" loading="lazy">
           </div>
-          <div class="vertical-word">Sunday</div>
-          <div class="caption-box">
-            Good food, beautiful places, and my favorite person
-            sitting beside me. I couldn't ask for anything more.
-          </div>
+          <div class="vertical-word">Happy moments</div>
         </article>
 
         <article class="gallery-item">
           <div class="photo-frame">
-            <img src="photo4.jpg" alt="Another memory" loading="lazy">
+            <img src="photo4.jpg" alt="Happy new year" loading="lazy">
           </div>
-          <div class="vertical-word">Forever</div>
-          <div class="caption-box">
-            Every version of us feels like home. Here's to more
-            days, more laughs, and more of this love. ♡
-          </div>
+          <div class="vertical-word">Happy new year 🤪</div>
         </article>
       </section>
 
@@ -1187,42 +1208,32 @@
 
         <div class="story-label">New post &nbsp; &gt;</div>
 
-        <h1 class="title">✦ Happy Birthday, baby ✦</h1>
+        <h1 class="title">✦ Happy Birthday ✦</h1>
 
         <div class="subtitle">my favorite person...</div>
 
         <div class="main-photo">
-          <img src="photo3.jpg" alt="Yououuuu" loading="eager">
-        </div>
-
-        <div class="love-letter" id="poetry">
-          <h2>A Letter For Yououuuu</h2>
-          <div class="letter-line"></div>
-          <span class="star">✦</span>
-          <p>
-            Happy birthday, my love.
-            I don't think words will ever be enough to explain
-            how much you mean to me.
-            <br><br>
-            You are not only the person I love, but also my best
-            friend, my comfort, my happiness, and the person I
-            want beside me through every part of life.
-            <br><br>
-            Thank you for every laugh, every memory, every late
-            conversation, and every small moment that somehow
-            became unforgettable because it was with you.
-            <br><br>
-            I hope this year gives you everything you deserve
-            and even more.
-            <br><br>
-            I love you. Always. ♡
-            <br><br>
-            — from Koki
-          </p>
+          <img src="first-picture.jpg" alt="First picture" loading="eager">
+          <div class="main-photo__label">first picture</div>
         </div>
       </section>
 
     </main>
+
+    <section class="letter-section" id="poetry">
+      <div class="love-letter">
+        <h2>A Letter For Yououuuu</h2>
+        <div class="letter-line"></div>
+        <span class="star">✦</span>
+        <p>
+          Koll sanah wenty tayeba ya habebbbty, 3o2bal senin gayah kolaha tekoni mabsouta w farhana w dayman malya el donia ala kolo embsat w ra7a w sa3ada (ana bel akhass🤪).
+          <br><br>
+          Bahbeik ya rouhi wenty dayman ahla wahda fel donia. Rabnna yekhliky leya ya rouhi.
+          <br><br>
+          — from Koki ♡
+        </p>
+      </div>
+    </section>
   </div>
 
   <div class="list-panel" id="listPanel" aria-hidden="true">
